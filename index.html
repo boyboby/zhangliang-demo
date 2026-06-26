@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#4C1D95">
+<title>涨量智汇 · 演示</title>
+<style>
+:root{
+  --primary:#4C1D95; --primary-light:#7C3AED; --primary-bg:#F5F0FF;
+  --secondary:#0E7490; --secondary-light:#06B6D4; --secondary-bg:#ECFEFF;
+  --accent:#F59E0B; --accent-bg:#FFFBEB;
+  --success:#10B981; --danger:#E11D48; --danger-bg:#FFF1F2; --info:#3B82F6;
+  --text:#1F2937; --sub:#6B7280; --muted:#9CA3AF; --border:#E5E7EB; --border-light:#F3F4F6;
+  --bg:#F4F5F7; --white:#fff;
+  --r-md:8px; --r-lg:10px; --r-xl:14px; --r-2xl:16px;
+  --shadow-card:0 2px 8px rgba(0,0,0,.06); --shadow-float:0 6px 20px rgba(0,0,0,.12);
+  --font:-apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--font);background:#e7e8ec;color:var(--text);display:flex;justify-content:center;align-items:center;overscroll-behavior:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.phone{position:relative;width:100%;max-width:420px;height:100dvh;max-height:920px;background:var(--bg);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.18)}
+@media(min-width:480px){.phone{border-radius:28px;height:880px}}
+
+/* status bar */
+.statusbar{flex:0 0 auto;height:30px;display:flex;align-items:center;justify-content:space-between;padding:6px 22px 0;font-size:13px;font-weight:600;background:var(--bg);z-index:30}
+.statusbar.on-dark{color:#fff}
+.statusbar .dots{letter-spacing:1px;font-size:10px}
+
+/* nav bar */
+.navbar{flex:0 0 auto;height:44px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg);font-size:16px;font-weight:600}
+.navbar .back{position:absolute;left:12px;font-size:15px;font-weight:400;color:var(--text);display:flex;align-items:center;gap:2px}
+.navbar.glass{background:rgba(255,255,255,.85);backdrop-filter:saturate(1.6) blur(8px);border-bottom:.5px solid var(--border-light)}
+
+/* screens */
+.body{flex:1 1 auto;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .2s;transform:translateX(100%);opacity:0;pointer-events:none}
+.screen.active{transform:translateX(0);opacity:1;pointer-events:auto}
+.screen.is-tab{transform:translateX(0);opacity:0;z-index:0}
+.screen.is-tab.active{opacity:1;z-index:1}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px}
+.pad{padding:0 16px}
+
+/* tab bar */
+.tabbar{flex:0 0 auto;height:58px;padding-bottom:env(safe-area-inset-bottom);display:flex;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-top:.5px solid var(--border)}
+.tabbar.hidden{display:none}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px}
+.tab .ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:21px;line-height:1}
+.tab.on{color:var(--primary)}
+
+/* generic */
+.title-lg{font-size:24px;font-weight:700;letter-spacing:-.3px}
+.sub{font-size:12px;color:var(--sub)}
+.section-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;margin:18px 0 10px}
+.section-t::before{content:"";width:3px;height:14px;border-radius:2px;background:var(--secondary)}
+.card{background:var(--white);border-radius:var(--r-2xl);box-shadow:var(--shadow-card)}
+.row{display:flex;align-items:center;justify-content:space-between}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:2px 7px;border-radius:999px}
+.btn{height:48px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:#fff;background:var(--primary);width:100%}
+.btn.gold{background:var(--accent)}
+.btn.ghost{background:var(--white);color:var(--text);border:1px solid var(--border)}
+.btn:active{transform:scale(.98)}
+
+/* hero member card */
+.hero{margin:14px 16px 0;border-radius:18px;padding:18px;color:#fff;background:linear-gradient(135deg,#5B21B6,#7C3AED 60%,#8B5CF6);box-shadow:0 8px 22px rgba(76,29,149,.28);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero .name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:6px}
+.hero .meta{font-size:12px;opacity:.85;margin-top:3px}
+.hero .nums{display:flex;gap:26px;margin-top:14px}
+.hero .num b{font-size:24px;font-weight:700}
+.hero .num span{display:block;font-size:11px;opacity:.8;margin-top:2px}
+.hero .pill{position:absolute;right:16px;top:16px;background:rgba(255,255,255,.2);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:3px}
+.hero .link-data{position:absolute;left:18px;top:46px;font-size:12px;color:rgba(255,255,255,.85)}
+
+/* center upgrade row */
+.upbar{margin:12px 16px 0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#6D28D9,#4C1D95);color:#fff;display:flex;align-items:center;justify-content:space-between}
+.upbar .t{font-size:14px;font-weight:600}
+.upbar .s{font-size:11px;opacity:.8;margin-top:2px}
+.upbar .go{background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px;font-size:12px;color:#fff}
+
+/* quick entries */
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 16px 0}
+.qcard{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow-card)}
+.qcard .e{font-size:22px}
+.qcard .t{font-size:14px;font-weight:600;margin-top:8px}
+.qcard .s{font-size:11px;color:var(--sub);margin-top:2px}
+
+/* community banner */
+.community{margin:12px 16px 0;border-radius:14px;padding:14px;background:linear-gradient(135deg,#0E7490,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:space-between}
+.community .t{font-size:14px;font-weight:600}
+.community .s{font-size:11px;opacity:.85;margin-top:2px}
+.community .j{background:#fff;color:var(--secondary);font-weight:600;padding:7px 14px;border-radius:999px;font-size:12px}
+
+/* funnel */
+.funnel{display:flex;background:#fff;border-radius:16px;margin:0 16px;box-shadow:var(--shadow-card);overflow:hidden}
+.funnel .f{flex:1;text-align:center;padding:16px 0}
+.funnel .f b{font-size:22px;font-weight:700}
+.funnel .f span{display:block;font-size:11px;color:var(--sub);margin-top:4px}
+
+/* list */
+.list{background:#fff;border-radius:16px;margin:12px 16px 0;box-shadow:var(--shadow-card);overflow:hidden}
+.li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:.5px solid var(--border-light);font-size:14px}
+.li:last-child{border-bottom:none}
+.li .e{font-size:18px;width:20px;text-align:center}
+.li .arrow{margin-left:auto;color:var(--muted)}
+.li.danger{color:var(--danger)}
+
+/* invite banner */
+.invite-tip{margin:12px 16px 0;background:var(--primary-bg);border-radius:12px;padding:11px 14px;font-size:12px;color:var(--primary);font-weight:500}
+
+/* fund transit */
+.fund-qual{margin:16px;background:#fff;border-radius:16px;padding:16px;box-shadow:var(--shadow-card)}
+.fund-qual .org{display:flex;align-items:center;gap:10px}
+.fund-qual .logo{width:38px;height:38px;border-radius:10px;background:var(--secondary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.fund-qual .nm{font-weight:600}
+.fund-qual .cert{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
+.fund-center{display:flex;flex-direction:column;align-items:center;margin-top:40px;color:var(--sub)}
+.fund-center .big{width:64px;height:64px;border-radius:50%;background:var(--secondary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin-bottom:14px}
+
+/* bottom sheet */
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+.backdrop.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:51}
+.sheet.show{transform:translateY(0)}
+.sheet .grab{width:36px;height:4px;border-radius:2px;background:#D1D5DB;margin:6px auto 14px}
+.sheet h3{font-size:18px;font-weight:700}
+.sheet .dest{font-size:13px;color:var(--sub);margin:6px 0 14px}
+.sheet .carry{font-size:11px;color:var(--muted);margin:12px 0;line-height:1.5}
+
+/* carousel */
+.mb-head{padding:14px 16px 6px}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 38px 4px;scroll-padding:0 38px;-webkit-overflow-scrolling:touch}
+.carousel::-webkit-scrollbar{display:none}
+.tier{flex:0 0 calc(100% - 76px);scroll-snap-align:center;background:#fff;border-radius:16px;border:1px solid var(--border-light);padding:16px;box-shadow:var(--shadow-card);transition:border-color .2s,box-shadow .2s,transform .2s}
+.tier.sel{border:2px solid var(--primary);box-shadow:0 8px 22px rgba(76,29,149,.16)}
+.tier .th{display:flex;align-items:center;justify-content:space-between}
+.tier .nm{font-size:18px;font-weight:700;display:flex;align-items:center;gap:5px}
+.tier .nm.sel{color:var(--primary)}
+.tier .price{font-size:16px;font-weight:700}
+.tier .tag{font-size:10px;font-weight:600;padding:0}
+.tier .divline{height:1px;background:var(--border-light);margin:12px 0}
+.tier .blk-t{font-size:11px;color:var(--sub);margin-bottom:7px}
+.tier .pr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.tier .pr .l{color:var(--sub)}
+.tier .pr .v{font-weight:500}
+.tier .pr .v.on{color:var(--success)}
+.tier .pr .v.hl{color:var(--primary)}
+.dots{display:flex;justify-content:center;gap:7px;margin:14px 0 6px}
+.dots i{width:6px;height:6px;border-radius:3px;background:#D1D5DB;transition:width .2s,background .2s}
+.dots i.on{width:18px;background:var(--primary)}
+
+/* agreement + cta block */
+.foot{padding:8px 16px 16px}
+.agree{font-size:12px;color:var(--sub);display:flex;gap:7px;align-items:flex-start;margin-bottom:12px}
+.agree .box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--primary);flex:0 0 auto;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px}
+.agree .box.on{background:var(--primary)}
+
+/* invite page */
+.qrcard{margin:16px;background:#fff;border-radius:18px;padding:20px;text-align:center;box-shadow:var(--shadow-card)}
+.qr{width:140px;height:140px;margin:8px auto;border-radius:12px;background:
+  linear-gradient(45deg,#222 25%,transparent 25%,transparent 75%,#222 75%),
+  linear-gradient(45deg,#222 25%,#fff 25%,#fff 75%,#222 75%);
+  background-size:18px 18px;background-position:0 0,9px 9px;opacity:.9}
+.qrcard .code{display:inline-block;margin-top:6px;background:var(--primary-bg);color:var(--primary);font-weight:600;font-size:13px;padding:5px 14px;border-radius:999px}
+.share-btns{display:flex;gap:12px;margin-top:16px}
+.share-btns .b{flex:1;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600}
+.share-btns .b.wx{background:var(--primary);color:#fff}
+.share-btns .b.poster{background:var(--border-light);color:var(--text)}
+.rules{margin:16px;background:#fff;border-radius:14px;padding:16px;box-shadow:var(--shadow-card);font-size:12.5px;color:var(--sub);line-height:1.9}
+.rules .rt{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+
+/* pay result */
+.pay-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.pay-ic{width:84px;height:84px;border-radius:50%;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:18px}
+.pay-wrap h2{font-size:20px;font-weight:700}
+.pay-wrap p{font-size:13px;color:var(--sub);margin-top:8px}
+.pay-card{margin-top:22px;width:100%;background:var(--accent-bg);border-radius:14px;padding:16px;text-align:left}
+.pay-card .t{font-size:13px;font-weight:600;color:#92400E}
+.pay-card .s{font-size:12px;color:#B45309;margin-top:4px}
+
+/* register sheet */
+.reg .ipt{margin:0 16px;background:#fff;border:1px solid var(--border);border-radius:12px;height:48px;display:flex;align-items:center;padding:0 14px;justify-content:space-between}
+.reg .ipt .v{font-weight:600}
+.reg .ipt .tag{font-size:12px;color:var(--primary)}
+
+/* state switcher */
+.state-fab{position:absolute;right:12px;bottom:74px;z-index:40;background:rgba(31,41,55,.9);color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow-float)}
+.state-menu{position:absolute;right:12px;bottom:118px;z-index:41;background:#fff;border-radius:14px;box-shadow:var(--shadow-float);overflow:hidden;display:none}
+.state-menu.show{display:block}
+.state-menu button{display:block;width:160px;text-align:left;padding:12px 16px;font-size:13px;border-bottom:.5px solid var(--border-light)}
+.state-menu button:last-child{border-bottom:none}
+.state-menu button.on{color:var(--primary);font-weight:600;background:var(--primary-bg)}
+
+.hide{display:none!important}
+.toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.8);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;z-index:90;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="phone" id="phone" data-state="vip">
+  <div class="statusbar" id="statusbar"><span>9:41</span><span class="dots">●●●</span></div>
+
+  <div class="body" id="screens">
+
+    <!-- 首页 -->
+    <section class="screen is-tab active" id="s-home" data-tab="home">
+      <div class="navbar">涨量智汇</div>
+      <div class="scroll">
+        <!-- 会员态 -->
+        <div data-st="vip s5">
+          <div class="hero" id="homeHero">
+            <div class="pill" onclick="go('membership')">去升级 ›</div>
+            <div class="name" id="heroName">潘＊＊ <span style="font-size:14px">🏅</span></div>
+            <div class="meta" id="heroMeta">VIP · 有效期至 2027-06-12</div>
+            <div class="nums">
+              <div class="num"><b>¥12,800</b><span>累计服务费</span></div>
+              <div class="num"><b>¥860</b><span>本月新增</span></div>
+            </div>
+          </div>
+          <div class="upbar" onclick="go('membership')">
+            <div><div class="t">会员中心</div><div class="s" id="upSub">升级 S1 · 解锁裂变层 ×10%</div></div>
+            <div class="go" id="upGo">去升级</div>
+          </div>
+        </div>
+        <!-- 访客态 -->
+        <div data-st="s0" class="hide">
+          <div class="hero" style="background:linear-gradient(135deg,#6B7280,#9CA3AF)">
+            <div class="name">未登录</div>
+            <div class="meta">登录后查看会员权益与拓客收益</div>
+            <div style="margin-top:14px"><span style="background:#fff;color:var(--text);padding:9px 20px;border-radius:999px;font-weight:600;font-size:14px" onclick="goReg()">微信登录 / 注册</span></div>
+          </div>
+        </div>
+
+        <div class="section-t pad" style="margin-left:16px">会员与拓客</div>
+        <div class="quick">
+          <div class="qcard" onclick="go('invite')"><div class="e">💎</div><div class="t">邀请拓客</div><div class="s">分享得服务费</div></div>
+          <div class="qcard" onclick="go('membership')"><div class="e">🏅</div><div class="t">会员权益</div><div class="s">三档对比 ›</div></div>
+        </div>
+        <div class="community" onclick="toast('已唤起长茂会员社群')">
+          <div><div class="t">加入会员社群</div><div class="s">拓客培训 · 排行榜 · 活动</div></div>
+          <div class="j">立即加入</div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:22px 16px 0">涨量智汇为第三方科技流量平台 · 金融交易由持牌机构长量承载</p>
+      </div>
+    </section>
+
+    <!-- 基金 -->
+    <section class="screen is-tab" id="s-funds" data-tab="funds">
+      <div class="navbar">基金</div>
+      <div class="scroll">
+        <div class="fund-qual">
+          <div class="org"><div class="logo">量</div><div><div class="nm">长量 · 持牌机构</div></div></div>
+          <div class="cert">基金销售业务资格 证书编号：4408 8888 0000<br>基金有风险，投资需谨慎 · 销售由持牌机构长量承载</div>
+        </div>
+        <div class="fund-center">
+          <div class="big">量</div>
+          <div style="font-weight:600;color:var(--text)">点「前往长量」开始</div>
+          <div style="font-size:12px;margin-top:6px">本页不承载自有产品，直跳长量小程序</div>
+        </div>
+        <div style="padding:24px 16px 0"><button class="btn" onclick="openJump('基金')">前往长量小程序</button></div>
+      </div>
+    </section>
+
+    <!-- 我的 -->
+    <section class="screen is-tab" id="s-mine" data-tab="mine">
+      <div class="navbar">我的</div>
+      <div class="scroll">
+        <div data-st="vip s5">
+          <div class="hero" style="margin-top:14px">
+            <div class="pill" onclick="go('membership')" id="mineUp">续费</div>
+            <div class="name">潘＊＊ <span class="link-data2" style="font-size:12px;opacity:.85;font-weight:400;margin-left:4px" onclick="toast('进入个人资料')">资料 ›</span></div>
+            <div class="meta" id="mineMeta">VIP · 有效期至 2027-06-12</div>
+            <div class="nums">
+              <div class="num"><b>¥12,800</b><span>累计服务费</span></div>
+              <div class="num"><b>¥860</b><span>本月新增</span></div>
+            </div>
+          </div>
+          <div class="section-t" style="margin-left:16px">我的拓客</div>
+          <div class="funnel">
+            <div class="f"><b id="fn1">12</b><span>已注册</span></div>
+            <div class="f"><b id="fn2">7</b><span>已开户</span></div>
+            <div class="f"><b id="fn3">4</b><span>已首购</span></div>
+          </div>
+          <div class="list">
+            <div class="li" onclick="toast('服务费明细')"><span class="e">📊</span>服务费明细<span class="arrow">›</span></div>
+            <div class="li" onclick="toast('我的客户')"><span class="e">👥</span>我的客户<span class="arrow">›</span></div>
+            <div class="li" onclick="openJump('持仓')"><span class="e">📈</span>我的持仓 · 在长量查看<span class="arrow">›</span></div>
+            <div class="li" onclick="go('invite')"><span class="e">💎</span>邀请拓客<span class="arrow">›</span></div>
+            <div class="li danger" onclick="confirmLogout()"><span class="e">🚪</span>登出<span class="arrow" style="color:var(--danger)">›</span></div>
+          </div>
+        </div>
+        <div data-st="s0" class="hide" style="padding-top:14px">
+          <div class="hero" style="background:linear-gradient(135deg,#6B7280,#9CA3AF)">
+            <div class="name">未登录</div><div class="meta">登录后查看会员与拓客数据</div>
+            <div style="margin-top:14px"><span style="background:#fff;color:var(--text);padding:9px 20px;border-radius:999px;font-weight:600;font-size:14px" onclick="goReg()">微信登录 / 注册</span></div>
+          </div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:22px 16px 0">金融交易由持牌机构长量承载</p>
+      </div>
+    </section>
+
+    <!-- 会员权益（轮播） -->
+    <section class="screen" id="s-membership">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>会员权益</div>
+      <div class="scroll" style="padding-bottom:0">
+        <div class="mb-head">
+          <div class="title-lg">成为会员，开启拓客</div>
+          <div class="sub" style="margin-top:4px">左右滑动查看每档权益与结算规则</div>
+        </div>
+        <div class="invite-tip">好友小明 🥇 邀请你加入 · 注册时已绑定</div>
+        <div class="carousel" id="carousel"></div>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="foot" style="background:var(--bg)">
+        <div class="agree" onclick="this.querySelector('.box').classList.toggle('on')">
+          <span class="box on">✓</span><span>已阅读并同意《会员服务协议》《用户协议》</span>
+        </div>
+        <button class="btn" id="mbCta" onclick="openPay()">立即开通（微信支付 ¥388）</button>
+      </div>
+    </section>
+
+    <!-- 邀请拓客 -->
+    <section class="screen" id="s-invite">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>邀请拓客</div>
+      <div class="scroll">
+        <div class="invite-tip" style="margin:16px 16px 0">🔓 已可邀请拓客 · 好友注册即绑定你（永不覆盖）</div>
+        <div class="qrcard">
+          <div style="font-size:15px;font-weight:600">我的专属邀请</div>
+          <div class="qr"></div>
+          <div class="code">邀请码 ZL8K3M</div>
+          <div class="share-btns">
+            <div class="b wx" onclick="toast('已唤起微信分享 · 携带 scene token')">微信分享</div>
+            <div class="b poster" onclick="toast('生成邀请海报')">生成海报</div>
+          </div>
+        </div>
+        <div class="rules">
+          <div class="rt">玩法说明</div>
+          1. 好友经你的码注册 → 注册即绑定，永不变更<br>
+          2. 好友在长量产生资产 → 服务费累计（开通会员后结算）<br>
+          3. S1 独享：好友成为会员后其拓客贡献 ×10%（两层）
+        </div>
+      </div>
+    </section>
+
+    <!-- 支付结果 -->
+    <section class="screen" id="s-pay">
+      <div class="navbar glass"><span class="back" onclick="goTab('home')">‹ 完成</span>支付结果</div>
+      <div class="pay-wrap">
+        <div class="pay-ic">✓</div>
+        <h2 id="payTitle">开通成功</h2>
+        <p id="payDesc">VIP 会员已生效 · 服务费开始计费结算</p>
+        <div class="pay-card">
+          <div class="t">🏦 长量金融服务私域</div>
+          <div class="s">小量妹将为你提供开户 / 交易 / 持仓咨询 →</div>
+        </div>
+        <button class="btn" style="margin-top:24px" onclick="goTab('home')">返回首页</button>
+      </div>
+    </section>
+
+    <!-- 注册 -->
+    <section class="screen" id="s-reg">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>登录 / 注册</div>
+      <div class="reg scroll" style="text-align:center">
+        <div style="width:64px;height:64px;border-radius:16px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin:30px auto 14px">涨</div>
+        <div style="font-size:20px;font-weight:700">涨量智汇</div>
+        <div class="sub" style="margin:6px 0 22px">帮你拓客赚服务费 · 第三方科技流量平台</div>
+        <div class="invite-tip" style="margin:0 16px">🥇 好友小明 邀请你加入 · 注册即绑定</div>
+        <div style="text-align:left;padding:18px 16px 6px;font-size:13px;font-weight:600">邀请码（选填）</div>
+        <div class="ipt"><span class="v">ZL8K3M</span><span class="tag">已自动带入 · 可修改</span></div>
+        <div style="font-size:11px;color:var(--muted);text-align:left;padding:8px 16px">未通过好友链接进入？在此手动填写 · 注册即绑定，永不覆盖</div>
+        <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">微信授权登录</button></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:24px">☑ 登录即同意《用户协议》《隐私政策》</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- tab bar -->
+  <div class="tabbar" id="tabbar">
+    <button class="tab on" data-go="home"><span class="ic">⌂</span>首页</button>
+    <button class="tab" data-go="funds"><span class="ic">📈</span>基金</button>
+    <button class="tab" data-go="mine"><span class="ic">👤</span>我的</button>
+  </div>
+
+  <!-- jump sheet -->
+  <div class="backdrop" id="jumpBd" onclick="closeJump()"></div>
+  <div class="sheet" id="jumpSheet">
+    <div class="grab"></div>
+    <h3>即将前往「长量」小程序</h3>
+    <div class="dest" id="jumpDest">长量将按账户状态进入：开户 / 浏览 / 登录 / 注册</div>
+    <div class="fund-qual" style="margin:0;box-shadow:none;border:1px solid var(--border-light);padding:12px">
+      <div class="org"><div class="logo" style="width:30px;height:30px;font-size:13px">量</div><div><div class="nm" style="font-size:13px">长量 · 持牌机构</div></div></div>
+      <div class="cert" style="margin-top:6px">证书编号：4408 8888 0000｜交易由长量承载</div>
+    </div>
+    <div class="carry">将携带：手机号（加密 · 长量识别身份并静默登录）</div>
+    <button class="btn" onclick="closeJump();toast('已跳转长量小程序（演示）')">继续前往</button>
+    <button class="btn ghost" style="margin-top:10px" onclick="closeJump()">取消</button>
+  </div>
+
+  <!-- logout sheet -->
+  <div class="backdrop" id="loBd" onclick="closeLogout()"></div>
+  <div class="sheet" id="loSheet">
+    <div class="grab"></div>
+    <h3>确定退出登录？</h3>
+    <div class="dest">退出后需重新登录才能查看会员与拓客数据。</div>
+    <button class="btn" style="background:var(--danger)" onclick="closeLogout();setState('s0');goTab('home');toast('已退出登录')">退出登录</button>
+    <button class="btn ghost" style="margin-top:10px" onclick="closeLogout()">取消</button>
+  </div>
+
+  <!-- state switcher -->
+  <div class="state-fab" onclick="toggleStateMenu()" id="stateFab">🎚 演示态 · <span id="stateLabel">会员</span></div>
+  <div class="state-menu" id="stateMenu">
+    <button data-state="vip" class="on" onclick="setState('vip')">会员态（VIP）</button>
+    <button data-state="s5" onclick="setState('s5')">会员已过期（续费）</button>
+    <button data-state="s0" onclick="setState('s0')">访客态（未登录）</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ---------- tier data ---------- */
+const TIERS=[
+  {name:'甄选',price:'¥88/年',pay:88,sel:false,
+   benefits:[['资讯订阅','✓',1],['资产看板','—',0],['裂变统计','—',0]],
+   rules:[['自拓系数','50%',0],['AUM 计入','上限 1万',0],['裂变层','无',0]]},
+  {name:'VIP',price:'¥388/年',pay:388,sel:true,
+   benefits:[['资讯订阅','✓',1],['资产看板','✓',1],['裂变统计','✓',1]],
+   rules:[['自拓系数','50–80%（4档）',1],['AUM 计入','全额',0],['裂变层','无',0]]},
+  {name:'S1 超级',price:'¥888/年',pay:888,sel:false,tag:'独享裂变',
+   benefits:[['资讯订阅','✓',1],['资产看板','✓',1],['裂变统计','✓ 高级',1]],
+   rules:[['自拓系数','最高 80%',1],['AUM 计入','全额',0],['裂变层','×10% 独享',1]]},
+];
+let activeTier=1;
+
+function buildCarousel(){
+  const c=document.getElementById('carousel'), d=document.getElementById('dots');
+  c.innerHTML=''; d.innerHTML='';
+  TIERS.forEach((t,i)=>{
+    const sel=i===activeTier;
+    const benefits=t.benefits.map(b=>`<div class="pr"><span class="l">${b[0]}</span><span class="v ${b[2]?'on':''}">${b[1]}</span></div>`).join('');
+    const rules=t.rules.map(r=>`<div class="pr"><span class="l">${r[0]}</span><span class="v ${r[2]?'hl':''}">${r[1]}</span></div>`).join('');
+    c.insertAdjacentHTML('beforeend',`
+      <div class="tier ${sel?'sel':''}" data-i="${i}">
+        <div class="th">
+          <div class="nm ${sel?'sel':''}">${t.name}${sel?' <span style="font-size:13px">✓</span>':''}${t.tag?` <span class="tag" style="color:var(--accent)">${t.tag}</span>`:''}</div>
+          <div class="price" style="${sel?'color:var(--primary)':''}">${t.price}</div>
+        </div>
+        <div class="divline"></div>
+        <div class="blk-t">权益包</div>${benefits}
+        <div class="divline"></div>
+        <div class="blk-t">结算规则</div>${rules}
+      </div>`);
+    d.insertAdjacentHTML('beforeend',`<i class="${sel?'on':''}"></i>`);
+  });
+  updateCta();
+}
+function updateCta(){
+  const t=TIERS[activeTier];
+  const st=phone.dataset.state;
+  const cta=document.getElementById('mbCta');
+  if(st==='s0'){cta.textContent='微信登录后开通 · 一键授权';}
+  else if(st==='s5'){cta.textContent=`续费会员（微信支付 ${t.price.split('/')[0]}）`;}
+  else{cta.textContent=`立即开通（微信支付 ${t.price.split('/')[0]}）`;}
+}
+let snapTimer;
+function onScroll(){
+  const c=document.getElementById('carousel');
+  const card=c.querySelector('.tier'); if(!card)return;
+  const step=card.offsetWidth+12;
+  const idx=Math.round(c.scrollLeft/step);
+  if(idx!==activeTier){
+    activeTier=Math.max(0,Math.min(2,idx));
+    c.querySelectorAll('.tier').forEach((el,i)=>{
+      el.classList.toggle('sel',i===activeTier);
+      el.querySelector('.nm').classList.toggle('sel',i===activeTier);
+      el.querySelector('.price').style.color=i===activeTier?'var(--primary)':'';
+      const nm=el.querySelector('.nm'); // refresh ✓
+    });
+    document.querySelectorAll('#dots i').forEach((el,i)=>el.classList.toggle('on',i===activeTier));
+    updateCta();
+  }
+}
+
+/* ---------- navigation ---------- */
+const phone=document.getElementById('phone');
+let history=['home'];
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+}
+function goTab(tab){
+  history=[tab];
+  document.querySelectorAll('.screen.is-tab').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+tab).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===tab));
+  document.getElementById('tabbar').classList.remove('hidden');
+  document.querySelectorAll('.screen:not(.is-tab)').forEach(s=>s.classList.remove('active'));
+  window.scrollTo(0,0);
+}
+function go(id){ // sub page
+  history.push(id);
+  showScreenSub(id);
+}
+function showScreenSub(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  document.getElementById('tabbar').classList.add('hidden');
+  if(id==='membership'){activeTier=1;buildCarousel();const c=document.getElementById('carousel');setTimeout(()=>{const card=c.querySelector('.tier');c.scrollLeft=(card.offsetWidth+12);},30);}
+}
+function back(){
+  history.pop();
+  const prev=history[history.length-1]||'home';
+  if(['home','funds','mine'].includes(prev)) goTab(prev);
+  else showScreenSub(prev);
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>goTab(t.dataset.go)));
+function goReg(){go('reg');}
+function doLogin(){setState('vip');back();toast('登录成功');}
+
+/* ---------- sheets ---------- */
+function openJump(from){
+  document.getElementById('jumpDest').textContent= from==='持仓'
+    ? '长量将带你查看持仓（含公募 / 私募）' : '长量将按账户状态进入：开户 / 浏览 / 登录 / 注册';
+  document.getElementById('jumpBd').classList.add('show');
+  document.getElementById('jumpSheet').classList.add('show');
+}
+function closeJump(){document.getElementById('jumpBd').classList.remove('show');document.getElementById('jumpSheet').classList.remove('show');}
+function confirmLogout(){document.getElementById('loBd').classList.add('show');document.getElementById('loSheet').classList.add('show');}
+function closeLogout(){document.getElementById('loBd').classList.remove('show');document.getElementById('loSheet').classList.remove('show');}
+
+/* ---------- pay ---------- */
+function openPay(){
+  const st=phone.dataset.state;
+  if(st==='s0'){goReg();return;}
+  const t=TIERS[activeTier];
+  document.getElementById('payTitle').textContent= st==='s5'?'续费成功':'开通成功';
+  document.getElementById('payDesc').textContent=`${t.name} 会员已生效 · 服务费开始计费结算`;
+  history.push('pay');showScreenSub('pay');
+}
+
+/* ---------- state ---------- */
+function toggleStateMenu(){document.getElementById('stateMenu').classList.toggle('show');}
+function setState(st){
+  phone.dataset.state=st;
+  document.getElementById('stateMenu').classList.remove('show');
+  document.querySelectorAll('.state-menu button').forEach(b=>b.classList.toggle('on',b.dataset.state===st));
+  document.getElementById('stateLabel').textContent={vip:'会员',s5:'已过期',s0:'访客'}[st];
+  // toggle state blocks
+  document.querySelectorAll('[data-st]').forEach(el=>{
+    el.classList.toggle('hide', !el.dataset.st.split(' ').includes(st));
+  });
+  // hero variations
+  if(st==='s5'){
+    document.getElementById('heroMeta').textContent='VIP · 已于 2026-06 到期';
+    document.getElementById('mineMeta').textContent='VIP · 已于 2026-06 到期';
+    document.getElementById('upSub').textContent='会员已到期 · 续费恢复结算';
+    document.getElementById('upGo').textContent='去续费';
+    document.getElementById('heroName').innerHTML='潘＊＊';
+  }else if(st==='vip'){
+    document.getElementById('heroMeta').textContent='VIP · 有效期至 2027-06-12';
+    document.getElementById('mineMeta').textContent='VIP · 有效期至 2027-06-12';
+    document.getElementById('upSub').textContent='升级 S1 · 解锁裂变层 ×10%';
+    document.getElementById('upGo').textContent='去升级';
+  }
+  updateCta();
+}
+
+/* ---------- toast ---------- */
+let tt;
+function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1500);}
+
+/* ---------- init ---------- */
+document.getElementById('carousel').addEventListener('scroll',()=>{clearTimeout(snapTimer);snapTimer=setTimeout(onScroll,40);},{passive:true});
+buildCarousel();
+setState('vip');
+</script>
+</body>
+</html>
