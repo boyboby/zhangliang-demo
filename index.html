@@ -390,8 +390,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div style="text-align:left;padding:18px 16px 6px;font-size:13px;font-weight:600">邀请码（选填）</div>
         <div class="ipt"><span class="v">ZL8K3M</span><span class="tag">已自动带入 · 可修改</span></div>
         <div style="font-size:11px;color:var(--muted);text-align:left;padding:8px 16px">未通过好友链接进入？在此手动填写 · 注册即绑定，永不覆盖</div>
-        <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">微信授权登录</button></div>
-        <div style="font-size:11px;color:var(--muted);margin-top:24px">☑ 登录即同意《用户协议》《隐私政策》</div>
+        <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">微信一键登录</button></div>
+        <div style="padding:10px 16px 0"><button class="btn ghost" style="color:var(--primary);border-color:var(--primary)" onclick="go('regphone')">其他手机号登录注册</button></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:20px">☑ 登录注册即同意《用户协议》《隐私政策》</div>
+      </div>
+    </section>
+
+    <!-- ⑧-4 其他手机号登录注册 -->
+    <section class="screen" id="s-regphone">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>其他手机号登录注册</div>
+      <div class="reg scroll">
+        <div class="invite-tip" style="margin:14px 16px 0">🥇 好友小明 邀请你加入 · 注册即绑定</div>
+        <div style="text-align:left;padding:16px 16px 6px;font-size:13px;font-weight:600">邀请码（选填）</div>
+        <div class="ipt" style="margin:0 16px"><span class="v">ZL8K3M</span><span class="tag">已自动带入</span></div>
+        <div style="text-align:left;padding:16px 16px 6px;font-size:13px;font-weight:600">手机号</div>
+        <div class="ipt" style="margin:0 16px"><span style="color:var(--text);font-weight:600">+86</span><span style="color:var(--muted);flex:1;text-align:left;margin-left:10px">请输入手机号</span></div>
+        <div style="text-align:left;padding:16px 16px 6px;font-size:13px;font-weight:600">验证码</div>
+        <div class="ipt" style="margin:0 16px"><span style="color:var(--muted);flex:1;text-align:left">请输入验证码</span><span style="color:var(--primary);font-weight:600" onclick="toast('验证码已发送（演示）')">获取验证码</span></div>
+        <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">立即登录 / 注册</button></div>
+        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:18px">登录/注册即同意《用户协议》《隐私政策》</div>
       </div>
     </section>
 
