@@ -193,6 +193,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .state-menu button:last-child{border-bottom:none}
 .state-menu button.on{color:var(--primary);font-weight:600;background:var(--primary-bg)}
 
+/* profile / ledger / customers */
+.info{background:#fff;border-radius:16px;margin:14px 16px 0;box-shadow:var(--shadow-card);overflow:hidden}
+.info .ir{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:.5px solid var(--border-light);font-size:14px}
+.info .ir:last-child{border-bottom:none}
+.info .ir .l{color:var(--sub)}
+.info .ir .v{font-weight:500}
+.avatar-c{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px}
+.sumcard{margin:14px 16px 0;background:linear-gradient(135deg,#5B21B6,#7C3AED);color:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 22px rgba(76,29,149,.25)}
+.sumcard>b{font-size:26px;font-weight:700;display:block;margin-top:2px}
+.sumcard .grid{display:flex;gap:28px;margin-top:12px}
+.sumcard .grid span{display:block;font-size:11px;opacity:.85}
+.sumcard .grid b{font-size:17px}
+.li small{font-size:11px}
+.st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px}
+.st.reg{background:#F3F4F6;color:#6B7280}
+.st.open{background:#EFF6FF;color:#1D4ED8}
+.st.buy{background:#ECFDF5;color:#047857}
 .hide{display:none!important}
 .toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.8);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;z-index:90;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
@@ -270,7 +287,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div data-st="vip s5">
           <div class="hero" style="margin-top:14px">
             <div class="pill" onclick="go('membership')" id="mineUp">续费</div>
-            <div class="name">潘＊＊ <span class="link-data2" style="font-size:12px;opacity:.85;font-weight:400;margin-left:4px" onclick="toast('进入个人资料')">资料 ›</span></div>
+            <div class="name">潘＊＊ <span class="link-data2" style="font-size:12px;opacity:.85;font-weight:400;margin-left:4px" onclick="go('profile')">资料 ›</span></div>
             <div class="meta" id="mineMeta">VIP · 有效期至 2027-06-12</div>
             <div class="nums">
               <div class="num"><b>¥12,800</b><span>累计服务费</span></div>
@@ -284,8 +301,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <div class="f"><b id="fn3">4</b><span>已首购</span></div>
           </div>
           <div class="list">
-            <div class="li" onclick="toast('服务费明细')"><span class="e">📊</span>服务费明细<span class="arrow">›</span></div>
-            <div class="li" onclick="toast('我的客户')"><span class="e">👥</span>我的客户<span class="arrow">›</span></div>
+            <div class="li" onclick="go('servicefee')"><span class="e">📊</span>服务费明细<span class="arrow">›</span></div>
+            <div class="li" onclick="go('customers')"><span class="e">👥</span>我的客户<span class="arrow">›</span></div>
             <div class="li" onclick="openJump('持仓')"><span class="e">📈</span>我的持仓 · 在长量查看<span class="arrow">›</span></div>
             <div class="li" onclick="go('invite')"><span class="e">💎</span>邀请拓客<span class="arrow">›</span></div>
             <div class="li danger" onclick="confirmLogout()"><span class="e">🚪</span>登出<span class="arrow" style="color:var(--danger)">›</span></div>
@@ -372,6 +389,67 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div style="font-size:11px;color:var(--muted);text-align:left;padding:8px 16px">未通过好友链接进入？在此手动填写 · 注册即绑定，永不覆盖</div>
         <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">微信授权登录</button></div>
         <div style="font-size:11px;color:var(--muted);margin-top:24px">☑ 登录即同意《用户协议》《隐私政策》</div>
+      </div>
+    </section>
+
+    <!-- 个人资料 -->
+    <section class="screen" id="s-profile">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>个人资料</div>
+      <div class="scroll">
+        <div class="info">
+          <div class="ir"><span class="l">头像</span><span class="avatar-c">潘</span></div>
+          <div class="ir"><span class="l">昵称</span><span class="v">潘＊＊</span></div>
+          <div class="ir"><span class="l">手机号</span><span class="v">138＊＊＊＊6677</span></div>
+          <div class="ir"><span class="l">微信绑定</span><span class="v" style="color:var(--success)">已绑定</span></div>
+        </div>
+        <div class="section-t" style="margin-left:16px">会员信息（只读）</div>
+        <div class="info" style="margin-top:0">
+          <div class="ir"><span class="l">会员等级</span><span class="v">VIP 🥈</span></div>
+          <div class="ir"><span class="l">会员号</span><span class="v">ZL00012800</span></div>
+          <div class="ir"><span class="l">有效期</span><span class="v">至 2027-06-12</span></div>
+        </div>
+        <div class="info" style="margin-top:14px">
+          <div class="ir" onclick="toast('注销账户 · 7 天冷静期')" style="color:var(--danger)"><span>注销账户</span><span class="arrow" style="color:var(--danger)">›</span></div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">注销将进入 7 天冷静期，归属关系按规则处置</p>
+      </div>
+    </section>
+
+    <!-- 服务费明细 -->
+    <section class="screen" id="s-servicefee">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>服务费明细</div>
+      <div class="scroll">
+        <div class="sumcard">
+          <div style="font-size:12px;opacity:.85">累计服务费（元）</div>
+          <b>¥12,800</b>
+          <div class="grid">
+            <div><b>¥860</b><span>本月新增</span></div>
+            <div><b>¥1,240</b><span>待结算</span></div>
+          </div>
+        </div>
+        <div class="section-t" style="margin-left:16px">月度台账</div>
+        <div class="list" style="margin-top:0">
+          <div class="li" onclick="toast('2026-06 月度结算单详情')"><span class="e">🗓</span><div style="flex:1">2026-06<small style="color:var(--muted);display:block">自拓 ¥1,100 + 裂变 ¥140</small></div><span style="text-align:right;font-weight:600">¥1,240<br><small style="color:var(--accent);font-weight:400">待结算</small></span><span class="arrow" style="margin-left:10px">›</span></div>
+          <div class="li" onclick="toast('2026-05 月度结算单详情')"><span class="e">🗓</span><div style="flex:1">2026-05<small style="color:var(--muted);display:block">自拓 ¥720 + 裂变 ¥140</small></div><span style="text-align:right;font-weight:600">¥860<br><small style="color:var(--success);font-weight:400">已结算</small></span><span class="arrow" style="margin-left:10px">›</span></div>
+          <div class="li" onclick="toast('2026-04 月度结算单详情')"><span class="e">🗓</span><div style="flex:1">2026-04<small style="color:var(--muted);display:block">自拓 ¥680 + 裂变 ¥120</small></div><span style="text-align:right;font-weight:600">¥800<br><small style="color:var(--success);font-weight:400">已结算</small></span><span class="arrow" style="margin-left:10px">›</span></div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">网络营销服务费 = 自拓 AUM 系数 50–80% + S1 裂变层 10%</p>
+      </div>
+    </section>
+
+    <!-- 我的客户 -->
+    <section class="screen" id="s-customers">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>我的客户</div>
+      <div class="scroll">
+        <div class="funnel" style="margin-top:14px"><div class="f"><b>12</b><span>已注册</span></div><div class="f"><b>7</b><span>已开户</span></div><div class="f"><b>4</b><span>已首购</span></div></div>
+        <div class="section-t" style="margin-left:16px">客户进展（不展示金额）</div>
+        <div class="list" style="margin-top:0">
+          <div class="li" onclick="toast('客户进展时间线')"><span class="e">🧑</span><div style="flex:1">王＊＊<small style="color:var(--muted);display:block">绑定 2026-03-12</small></div><span class="st buy">已首购</span></div>
+          <div class="li" onclick="toast('客户进展时间线')"><span class="e">🧑</span><div style="flex:1">李＊<small style="color:var(--muted);display:block">绑定 2026-04-02</small></div><span class="st open">已开户</span></div>
+          <div class="li" onclick="toast('客户进展时间线')"><span class="e">🧑</span><div style="flex:1">张＊＊<small style="color:var(--muted);display:block">绑定 2026-05-18</small></div><span class="st reg">已注册</span></div>
+          <div class="li" onclick="toast('客户进展时间线')"><span class="e">🧑</span><div style="flex:1">陈＊＊<small style="color:var(--muted);display:block">绑定 2026-05-20</small></div><span class="st reg">已注册</span></div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">仅展示客户拓客进展，金额与持仓数据不可见</p>
       </div>
     </section>
 
