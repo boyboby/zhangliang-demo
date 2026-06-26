@@ -390,7 +390,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div style="text-align:left;padding:18px 16px 6px;font-size:13px;font-weight:600">邀请码（选填）</div>
         <div class="ipt"><span class="v">ZL8K3M</span><span class="tag">已自动带入 · 可修改</span></div>
         <div style="font-size:11px;color:var(--muted);text-align:left;padding:8px 16px">未通过好友链接进入？在此手动填写 · 注册即绑定，永不覆盖</div>
-        <div style="padding:24px 16px 0"><button class="btn" onclick="doLogin()">微信一键登录</button></div>
+        <div style="padding:24px 16px 0"><button class="btn" onclick="openWxAuth()">微信一键登录</button></div>
         <div style="padding:10px 16px 0"><button class="btn ghost" style="color:var(--primary);border-color:var(--primary)" onclick="go('regphone')">其他手机号登录注册</button></div>
         <div style="font-size:11px;color:var(--muted);margin-top:20px">☑ 登录注册即同意《用户协议》《隐私政策》</div>
       </div>
@@ -541,6 +541,20 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <button class="btn ghost" style="margin-top:10px" onclick="closeLogout()">取消</button>
   </div>
 
+  <!-- 微信手机号授权 sheet（微信默认样式） -->
+  <div class="backdrop" id="wxBd" onclick="closeWxAuth()"></div>
+  <div class="sheet" id="wxSheet">
+    <div class="grab"></div>
+    <div style="font-size:12px;color:var(--sub)">涨量智汇 申请</div>
+    <h3 style="margin-top:2px">获取并验证你的手机号</h3>
+    <div style="margin-top:14px;border:1.5px solid var(--primary);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between" onclick="closeWxAuth();doLogin()">
+      <div><div style="font-weight:600;font-size:15px">138****8888</div><div style="font-size:12px;color:var(--sub);margin-top:2px">上次授权</div></div>
+      <div style="width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px">✓</div>
+    </div>
+    <button class="btn ghost" style="margin-top:14px" onclick="closeWxAuth()">不允许</button>
+    <div style="text-align:center;color:var(--primary);font-weight:500;font-size:14px;padding:16px 0 4px" onclick="closeWxAuth();go('regphone')">使用其它号码</div>
+  </div>
+
   <!-- state switcher -->
   <div class="state-fab" onclick="toggleStateMenu()" id="stateFab">🎚 演示态 · <span id="stateLabel">会员</span></div>
   <div class="state-menu" id="stateMenu">
@@ -662,6 +676,8 @@ function openJump(from){
 function closeJump(){document.getElementById('jumpBd').classList.remove('show');document.getElementById('jumpSheet').classList.remove('show');}
 function confirmLogout(){document.getElementById('loBd').classList.add('show');document.getElementById('loSheet').classList.add('show');}
 function closeLogout(){document.getElementById('loBd').classList.remove('show');document.getElementById('loSheet').classList.remove('show');}
+function openWxAuth(){document.getElementById('wxBd').classList.add('show');document.getElementById('wxSheet').classList.add('show');}
+function closeWxAuth(){document.getElementById('wxBd').classList.remove('show');document.getElementById('wxSheet').classList.remove('show');}
 
 /* ---------- pay ---------- */
 function openPay(){
