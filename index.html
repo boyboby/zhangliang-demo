@@ -229,7 +229,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div data-st="vip s5">
           <div class="hero" id="homeHero">
             <div class="pill" onclick="go('membership')">去升级 ›</div>
-            <div class="name" id="heroName">潘＊＊ <span style="font-size:14px">🏅</span></div>
+            <div class="name" id="heroName">138＊＊＊＊6677</div>
             <div class="meta" id="heroMeta">VIP · 有效期至 2027-06-12</div>
             <div class="nums">
               <div class="num"><b>¥12,800</b><span>累计服务费</span></div>
@@ -287,7 +287,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div data-st="vip s5">
           <div class="hero" style="margin-top:14px">
             <div class="pill" onclick="go('membership')" id="mineUp">续费</div>
-            <div class="name">潘＊＊ <span class="link-data2" style="font-size:12px;opacity:.85;font-weight:400;margin-left:4px" onclick="go('profile')">资料 ›</span></div>
+            <div class="name">138＊＊＊＊6677</div>
             <div class="meta" id="mineMeta">VIP · 有效期至 2027-06-12</div>
             <div class="nums">
               <div class="num"><b>¥12,800</b><span>累计服务费</span></div>
@@ -305,7 +305,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <div class="li" onclick="go('customers')"><span class="e">👥</span>我的客户<span class="arrow">›</span></div>
             <div class="li" onclick="openJump('持仓')"><span class="e">📈</span>我的持仓 · 在长量查看<span class="arrow">›</span></div>
             <div class="li" onclick="go('invite')"><span class="e">💎</span>邀请拓客<span class="arrow">›</span></div>
-            <div class="li danger" onclick="confirmLogout()"><span class="e">🚪</span>登出<span class="arrow" style="color:var(--danger)">›</span></div>
+            <div class="li" onclick="go('profile')"><span class="e">📇</span>个人资料<span class="arrow">›</span></div>
+            <div class="li" onclick="go('agreements')"><span class="e">📜</span>协议与规则<span class="arrow">›</span></div>
+            <div class="li" onclick="go('help')"><span class="e">💬</span>帮助与客服<span class="arrow">›</span></div>
+            <div class="li danger" onclick="confirmLogout()"><span class="e">🚪</span>退出登录<span class="arrow" style="color:var(--danger)">›</span></div>
           </div>
         </div>
         <div data-st="s0" class="hide" style="padding-top:14px">
@@ -397,8 +400,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>个人资料</div>
       <div class="scroll">
         <div class="info">
-          <div class="ir"><span class="l">头像</span><span class="avatar-c">潘</span></div>
-          <div class="ir"><span class="l">昵称</span><span class="v">潘＊＊</span></div>
           <div class="ir"><span class="l">手机号</span><span class="v">138＊＊＊＊6677</span></div>
           <div class="ir"><span class="l">微信绑定</span><span class="v" style="color:var(--success)">已绑定</span></div>
         </div>
@@ -450,6 +451,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           <div class="li" onclick="toast('客户进展时间线')"><span class="e">🧑</span><div style="flex:1">陈＊＊<small style="color:var(--muted);display:block">绑定 2026-05-20</small></div><span class="st reg">已注册</span></div>
         </div>
         <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">仅展示客户拓客进展，金额与持仓数据不可见</p>
+      </div>
+    </section>
+
+    <!-- 协议与规则 -->
+    <section class="screen" id="s-agreements">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>协议与规则</div>
+      <div class="scroll">
+        <div class="list" style="margin-top:14px">
+          <div class="li" onclick="toast('会员服务协议')"><span class="e">📄</span>会员服务协议<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('用户协议')"><span class="e">📄</span>用户协议<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('隐私政策')"><span class="e">📄</span>隐私政策<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('网络营销服务费规则')"><span class="e">📄</span>网络营销服务费规则<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('委托-展示-跳转说明')"><span class="e">📄</span>委托 · 展示 · 跳转说明<span class="arrow">›</span></div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">涨量智汇为第三方科技流量平台，金融交易由持牌机构长量承载</p>
+      </div>
+    </section>
+
+    <!-- 帮助与客服 -->
+    <section class="screen" id="s-help">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span>帮助与客服 / 协议</div>
+      <div class="scroll">
+        <div class="section-t" style="margin-left:16px">常见问题</div>
+        <div class="list" style="margin-top:0">
+          <div class="li" onclick="toast('会员与升级')"><span class="e">❓</span>会员与升级<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('邀请与客户归属')"><span class="e">❓</span>邀请与客户归属<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('服务费与结算')"><span class="e">❓</span>服务费与结算<span class="arrow">›</span></div>
+          <div class="li" onclick="toast('账户与安全')"><span class="e">❓</span>账户与安全<span class="arrow">›</span></div>
+          <div class="li" onclick="go('agreements')"><span class="e">📜</span>协议与规则<span class="arrow">›</span></div>
+        </div>
+        <div class="community" onclick="toast('已唤起涨量智汇在线客服')" style="margin-top:14px;background:var(--primary)">
+          <div><div class="t">在线客服（涨量智汇）</div><div class="s">会员 / 拓客 / 服务费 / 平台使用</div></div>
+          <div class="j" style="color:var(--primary)">进入</div>
+        </div>
+        <div class="invite-tip" style="background:var(--secondary-bg);color:var(--secondary)">🏦 金融问题（开户/交易/持仓）请找长量「小量妹」 →</div>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">服务时间 9:00–18:00 · 工作日</p>
       </div>
     </section>
 
@@ -636,7 +673,7 @@ function setState(st){
     document.getElementById('mineMeta').textContent='VIP · 已于 2026-06 到期';
     document.getElementById('upSub').textContent='会员已到期 · 续费恢复结算';
     document.getElementById('upGo').textContent='去续费';
-    document.getElementById('heroName').innerHTML='潘＊＊';
+    document.getElementById('heroName').innerHTML='138＊＊＊＊6677';
   }else if(st==='vip'){
     document.getElementById('heroMeta').textContent='VIP · 有效期至 2027-06-12';
     document.getElementById('mineMeta').textContent='VIP · 有效期至 2027-06-12';
