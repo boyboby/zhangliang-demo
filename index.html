@@ -539,13 +539,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ---------- tier data ---------- */
 const TIERS=[
   {name:'甄选',price:'¥88/年',pay:88,sel:false,
-   benefits:[['资讯订阅','✓',1],['资产看板','—',0],['裂变统计','—',0]],
+   benefits:[['裂变统计','—',0]],
    rules:[['自拓系数','50%',0],['AUM 计入','上限 1万',0],['裂变层','无',0]]},
   {name:'VIP',price:'¥388/年',pay:388,sel:true,
-   benefits:[['资讯订阅','✓',1],['资产看板','✓',1],['裂变统计','✓',1]],
+   benefits:[['裂变统计','✓',1]],
    rules:[['自拓系数','50–80%（4档）',1],['AUM 计入','全额',0],['裂变层','无',0]]},
   {name:'S1 超级',price:'¥888/年',pay:888,sel:false,tag:'独享裂变',
-   benefits:[['资讯订阅','✓',1],['资产看板','✓',1],['裂变统计','✓ 高级',1]],
+   benefits:[['裂变统计','✓ 高级',1]],
    rules:[['自拓系数','最高 80%',1],['AUM 计入','全额',0],['裂变层','×10% 独享',1]]},
 ];
 let activeTier=1;
