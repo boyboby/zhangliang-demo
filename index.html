@@ -492,10 +492,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div class="scroll">
         <div class="section-t" style="margin-left:16px">常见问题</div>
         <div class="list" style="margin-top:0">
-          <div class="li" onclick="toast('会员与升级')"><span class="e">❓</span>会员与升级<span class="arrow">›</span></div>
-          <div class="li" onclick="toast('邀请与客户归属')"><span class="e">❓</span>邀请与客户归属<span class="arrow">›</span></div>
-          <div class="li" onclick="toast('服务费与结算')"><span class="e">❓</span>服务费与结算<span class="arrow">›</span></div>
-          <div class="li" onclick="toast('账户与安全')"><span class="e">❓</span>账户与安全<span class="arrow">›</span></div>
+          <div class="li" onclick="openFaq('member')"><span class="e">❓</span>会员与升级<span class="arrow">›</span></div>
+          <div class="li" onclick="openFaq('invite')"><span class="e">❓</span>邀请与客户归属<span class="arrow">›</span></div>
+          <div class="li" onclick="openFaq('fee')"><span class="e">❓</span>服务费与结算<span class="arrow">›</span></div>
+          <div class="li" onclick="openFaq('account')"><span class="e">❓</span>账户与安全<span class="arrow">›</span></div>
           <div class="li" onclick="go('agreements')"><span class="e">📜</span>协议与规则<span class="arrow">›</span></div>
         </div>
         <div class="community" onclick="toast('已唤起涨量智汇在线客服')" style="margin-top:14px;background:var(--primary)">
@@ -505,6 +505,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div class="invite-tip" style="background:var(--secondary-bg);color:var(--secondary)">🏦 金融问题（开户/交易/持仓）请找长量「小量妹」 →</div>
         <p style="text-align:center;font-size:11px;color:var(--muted);margin:18px 16px 0">服务时间 9:00–18:00 · 工作日</p>
       </div>
+    </section>
+
+    <!-- FAQ 详情 -->
+    <section class="screen" id="s-faq">
+      <div class="navbar glass"><span class="back" onclick="back()">‹ 返回</span><span id="faqTitle">帮助详情</span></div>
+      <div class="scroll" id="faqBody" style="padding-top:14px"></div>
     </section>
 
   </div>
@@ -678,6 +684,17 @@ function confirmLogout(){document.getElementById('loBd').classList.add('show');d
 function closeLogout(){document.getElementById('loBd').classList.remove('show');document.getElementById('loSheet').classList.remove('show');}
 function openWxAuth(){document.getElementById('wxBd').classList.add('show');document.getElementById('wxSheet').classList.add('show');}
 function closeWxAuth(){document.getElementById('wxBd').classList.remove('show');document.getElementById('wxSheet').classList.remove('show');}
+const FAQ={
+  account:['账户与安全',[['如何修改或解绑手机号？','进入「个人资料」，手机号经微信授权管理；更换需重新验证新号码。'],['账号安全如何保障？','仅存脱敏手机号，敏感信息不写明文日志；异常登录会要求重新验证。'],['如何注销账户？','「个人资料 → 注销账户」，7 天冷静期，归属关系按规则处置。']]],
+  member:['会员与升级',[['三档会员有什么区别？','甄选 / VIP / S1 超级，结算系数与裂变层不同，详见会员权益卡片。'],['如何升级或续费？','「会员权益」选档微信支付；升级补差价，续费恢复全部权益。'],['会员到期会怎样？','邀请与绑定关系保留，服务费冻结，续费后恢复计费与结算。']]],
+  invite:['邀请与客户归属',[['好友如何绑定到我？','好友经你的邀请码注册即绑定，UNIQUE 兜底，永不覆盖。'],['归属关系会变化吗？','注册即绑定、永不变更，与是否成交无关。'],['在哪查看我的客户？','「我的 → 我的客户」查看拓客漏斗与进展（不展示金额）。']]],
+  fee:['服务费与结算',[['服务费怎么计算？','网络营销服务费 = 自拓 AUM 系数 50–80% + S1 裂变层 10%。'],['什么时候结算？','按月结算，月结发放后可在「服务费明细」查看台账。'],['失效期间怎么处理？','失效期间冻结、不结算，续费后恢复。']]]
+};
+function openFaq(key){
+  const d=FAQ[key]; document.getElementById('faqTitle').textContent=d[0];
+  document.getElementById('faqBody').innerHTML='<div class="list" style="margin-top:0">'+d[1].map(qa=>`<div class="li" style="display:block;padding:14px 16px"><div style="font-weight:500;font-size:14px">Q  ${qa[0]}</div><div style="font-size:13px;color:var(--sub);line-height:1.6;margin-top:6px">${qa[1]}</div></div>`).join('')+'</div>';
+  go('faq');
+}
 
 /* ---------- pay ---------- */
 function openPay(){
